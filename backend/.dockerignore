@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+.git/
+*.log
+.env
+.env.*
+!.env.example
+src/prisma/generated/
+uploads/avatars/
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+# Ignore only the obsolete backend/prisma scaffold; keep src/prisma for builds.
+/prisma/

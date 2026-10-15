@@ -1,0 +1,211 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Схема базы данных Noir Bijoux для PostgreSQL (облако Supabase)
+// Типы переведены в термины PostgreSQL: VarChar вместо NVarChar, Timestamp вместо DateTime2.
+// Файл читается Prisma (см. prisma7.config.ts). Команды:
+//   npx prisma generate   — сгенерировать клиент
+//   npx prisma migrate dev — создать/обновить таблицы в базе
+//   npx prisma studio     — визуальный просмотр данных
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Пользователи ────────────────────────────────────────────────────────────
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(150)
+  password  String   @db.VarChar(255) // bcrypt-хеш, не открытый пароль
+  fullName  String   @db.VarChar(150)
+  phone     String?  @db.VarChar(30)
+  avatarUrl String?  @db.VarChar(400)
+  role      String   @default("client") @db.VarChar(20) // client | admin
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+
+  builds    Build[]
+  orders    Order[]
+  favorites Favorite[]
+
+  @@map("users")
+}
+
+// ── Категории изделий (Колье, Серьги, Браслеты, Кольца) ─────────────────────
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(60)
+  slug String @unique @db.VarChar(60) // necklace | earrings | bracelet | ring
+
+  products Product[]
+
+  @@map("categories")
+}
+
+// ── Материалы (Серебро 925, Ювелирный сплав, ...) ───────────────────────────
+model Material {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(80)
+
+  products   Product[]
+  components Component[]
+
+  @@map("materials")
+}
+
+// ── Готовые изделия каталога ────────────────────────────────────────────────
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(150)
+  slug        String   @unique @db.VarChar(150)
+  categoryId  Int
+  materialId  Int
+  price       Decimal  @db.Decimal(10, 2)
+  imageUrl    String   @db.VarChar(400)
+  description String?  @db.VarChar(1000)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now()) @db.Timestamp(3)
+
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  material   Material    @relation(fields: [materialId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  orderItems OrderItem[]
+
+  @@index([categoryId])
+  @@index([materialId])
+  @@map("products")
+}
+
+// ── Компоненты конструктора (цепочки, подвески, застёжки, камни...) ─────────
+model Component {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(150)
+  jewelryType String  @db.VarChar(30) // necklace | bracelet | earrings | ring
+  slot        String  @db.VarChar(30) // chain | pendant | clasp | length | beads | charm | stone | material | size | profile
+  materialId  Int?
+  price       Decimal @db.Decimal(10, 2)
+  imageUrl    String  @db.VarChar(400) // PNG-слой для наложения
+  layerZ      Int     @default(1) // порядок наложения слоёв на эскиз
+  isActive    Boolean @default(true)
+
+  material   Material?   @relation(fields: [materialId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  buildItems BuildItem[]
+
+  @@index([jewelryType, slot])
+  @@map("components")
+}
+
+// ── Сборки пользователя (то, что собрали в конструкторе) ────────────────────
+model Build {
+  id          Int      @id @default(autoincrement())
+  userId      Int?
+  jewelryType String   @db.VarChar(30)
+  article     String   @unique @db.VarChar(50) // артикул, формируется из id компонентов
+  totalPrice  Decimal  @db.Decimal(10, 2)
+  createdAt   DateTime @default(now()) @db.Timestamp(3)
+
+  user       User?       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  items      BuildItem[]
+  favorites  Favorite[]
+  orderItems OrderItem[]
+
+  @@index([userId])
+  @@map("builds")
+}
+
+// ── Состав сборки (какие компоненты в неё вошли) ────────────────────────────
+model BuildItem {
+  id          Int @id @default(autoincrement())
+  buildId     Int
+  componentId Int
+  layerZ      Int @default(1)
+
+  build     Build     @relation(fields: [buildId], references: [id], onDelete: Cascade)
+  component Component @relation(fields: [componentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([buildId])
+  @@map("build_items")
+}
+
+// ── Заказы ──────────────────────────────────────────────────────────────────
+model Order {
+  id            Int      @id @default(autoincrement())
+  orderNumber   String   @unique @db.VarChar(20)
+  userId        Int?
+  customerName  String   @db.VarChar(150)
+  phone         String   @db.VarChar(30)
+  email         String?  @db.VarChar(150)
+  deliveryType  String   @db.VarChar(20) // pickup | courier | pvz
+  address       String?  @db.VarChar(400)
+  pickupPointId Int?
+  total         Decimal  @db.Decimal(10, 2)
+  status        String   @default("new") @db.VarChar(20) // new | confirmed | making | ready | done | canceled
+  comment       String?  @db.VarChar(500)
+  createdAt     DateTime @default(now()) @db.Timestamp(3)
+
+  user  User?       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  items OrderItem[]
+
+  @@index([userId])
+  @@map("orders")
+}
+
+// ── Позиции заказа (готовое изделие или сборка) ─────────────────────────────
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int?
+  buildId   Int?
+  title     String  @db.VarChar(200) // название на момент заказа
+  price     Decimal @db.Decimal(10, 2)
+  quantity  Int     @default(1)
+
+  order   Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  build   Build?   @relation(fields: [buildId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+// ── Избранные сборки ────────────────────────────────────────────────────────
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  buildId   Int?
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  build Build? @relation(fields: [buildId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([userId])
+  @@map("favorites")
+}
+
+// ── Точки самовывоза и ПВЗ (модальные окна выбора доставки) ─────────────────
+model PickupPoint {
+  id        Int     @id @default(autoincrement())
+  kind      String  @db.VarChar(20) // pickup | pvz
+  provider  String  @db.VarChar(50) // Мастерская Noir Bijoux | СДЭК | Boxberry
+  city      String  @db.VarChar(80)
+  address   String  @db.VarChar(250)
+  workHours String? @db.VarChar(120)
+  phone     String? @db.VarChar(30)
+
+  @@index([kind, city])
+  @@map("pickup_points")
+}
+
+// ── Сообщения чата поддержки (Socket.io, занятие 9) ─────────────────────────
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  room      String   @db.VarChar(60) @default("support")
+  body      String   @db.VarChar(1000)
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+
+  @@index([room, createdAt])
+  @@map("chat_messages")
+}

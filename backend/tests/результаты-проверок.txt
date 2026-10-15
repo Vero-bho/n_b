@@ -1,0 +1,28 @@
+# Результаты проверок Noir Bijoux
+
+Дата: 15.10.2026
+
+## Backend
+
+- `npm run prisma:generate` — успешно (Prisma Client 7.10.0).
+- `npm run typecheck` — успешно.
+- `npm run build` — успешно.
+- `npm test` — успешно, ошибок нет:
+  - MSSQL-альтернатива и согласованность с frontend: 64 проверки;
+  - PostgreSQL/Supabase SQL: 62 проверки;
+  - API: 89 проверок;
+  - seed: 34 проверки;
+  - Postman: 37 запросов и 37 проверок.
+- `npm run check:files` — успешно, все 61 обязательный файл найден.
+
+## Frontend
+
+- `npm run typecheck` — успешно.
+- `npm run build` — успешно (client и server production bundles).
+- `npm run check:files` — успешно, 17 проверок, ошибок нет.
+
+## Ограничения проверки
+
+- SQL-тесты проверяют файлы и демо-данные офлайн; реальный Supabase проект не изменялся.
+- Dockerfile и Compose подготовлены, но Docker-образ в этой среде не собирался: команда Docker недоступна.
+- Новые PNG-файлы не были приложены; до их добавления используются текущие SVG-заполнители.
