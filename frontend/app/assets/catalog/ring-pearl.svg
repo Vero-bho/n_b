@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5F5F5"/><stop offset="45%" stop-color="#CFC6D4"/>
+      <stop offset="100%" stop-color="#8E7A8E"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F3E1AE"/><stop offset="45%" stop-color="#D9B45E"/>
+      <stop offset="100%" stop-color="#9C7A2E"/>
+    </linearGradient>
+    <linearGradient id="rhodium" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E6E7E"/><stop offset="50%" stop-color="#2E2E38"/>
+      <stop offset="100%" stop-color="#15151B"/>
+    </linearGradient>
+    <linearGradient id="onyx" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A4A5E"/><stop offset="45%" stop-color="#1C1C24"/>
+      <stop offset="100%" stop-color="#0C0C11"/>
+    </linearGradient>
+    <radialGradient id="pearl" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#FFFFFF"/><stop offset="45%" stop-color="#F1E7F0"/>
+      <stop offset="100%" stop-color="#B9A7B9"/>
+    </radialGradient>
+    <linearGradient id="velvet" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3C1B43"/><stop offset="50%" stop-color="#501537"/>
+      <stop offset="100%" stop-color="#2A0C2E"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#3C1B43" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#210425" stop-opacity="0.3"/>
+    </radialGradient>
+    <linearGradient id="photo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#501537"/><stop offset="100%" stop-color="#210425"/>
+    </linearGradient>
+  </defs>
+<circle cx="400" cy="400" r="330" fill="url(#glow)"/><circle cx="400" cy="400" r="300" fill="none" stroke="#501537" stroke-width="2" stroke-opacity="0.75"/><ellipse cx="400" cy="430" rx="168" ry="186" fill="none" stroke="url(#gold)" stroke-width="40"/><ellipse cx="400" cy="430" rx="168" ry="186" fill="none" stroke="#210425" stroke-width="14" opacity="0.3"/><path d="M 400 244 a 168 186 0 0 1 122 62" fill="none" stroke="#F5F5F5" stroke-width="6" opacity="0.45"/><ellipse cx="400" cy="286" rx="78" ry="26" fill="none" stroke="url(#silver)" stroke-width="11"/><path d="M 348 268 L 336 214 M 452 268 L 464 214 M 372 246 L 366 206 M 428 246 L 434 206" stroke="url(#silver)" stroke-width="9" stroke-linecap="round"/><g transform="translate(400 280) scale(0.74)"><circle cx="0" cy="0" r="62" fill="url(#pearl)" stroke="#B8A3B8" stroke-width="4"/><circle cx="-20" cy="-22" r="18" fill="#FFFFFF" opacity="0.7"/></g>
+</svg>

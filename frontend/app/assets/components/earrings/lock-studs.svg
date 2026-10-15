@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <linearGradient id="silver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5F5F5"/><stop offset="45%" stop-color="#CFC6D4"/>
+      <stop offset="100%" stop-color="#8E7A8E"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F3E1AE"/><stop offset="45%" stop-color="#D9B45E"/>
+      <stop offset="100%" stop-color="#9C7A2E"/>
+    </linearGradient>
+    <linearGradient id="rhodium" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E6E7E"/><stop offset="50%" stop-color="#2E2E38"/>
+      <stop offset="100%" stop-color="#15151B"/>
+    </linearGradient>
+    <linearGradient id="onyx" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A4A5E"/><stop offset="45%" stop-color="#1C1C24"/>
+      <stop offset="100%" stop-color="#0C0C11"/>
+    </linearGradient>
+    <radialGradient id="pearl" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#FFFFFF"/><stop offset="45%" stop-color="#F1E7F0"/>
+      <stop offset="100%" stop-color="#B9A7B9"/>
+    </radialGradient>
+    <linearGradient id="velvet" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3C1B43"/><stop offset="50%" stop-color="#501537"/>
+      <stop offset="100%" stop-color="#2A0C2E"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#3C1B43" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#210425" stop-opacity="0.3"/>
+    </radialGradient>
+    <linearGradient id="photo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#501537"/><stop offset="100%" stop-color="#210425"/>
+    </linearGradient>
+  </defs>
+<g transform="translate(292 220) scale(1.0)"><circle cx="0" cy="0" r="26" fill="url(#silver)" stroke="#501537" stroke-width="4"/><circle cx="0" cy="0" r="10" fill="url(#onyx)"/><path d="M 0 26 L 0 62" stroke="url(#silver)" stroke-width="8" stroke-linecap="round"/><circle cx="0" cy="-30" r="10" fill="none" stroke="url(#silver)" stroke-width="6"/></g><g transform="translate(508 220) scale(1.0)"><circle cx="0" cy="0" r="26" fill="url(#silver)" stroke="#501537" stroke-width="4"/><circle cx="0" cy="0" r="10" fill="url(#onyx)"/><path d="M 0 26 L 0 62" stroke="url(#silver)" stroke-width="8" stroke-linecap="round"/><circle cx="0" cy="-30" r="10" fill="none" stroke="url(#silver)" stroke-width="6"/></g>
+</svg>
